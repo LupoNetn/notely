@@ -7,7 +7,7 @@ const taskHeader = [
   { title: "BackLog" },
   { title: "To Do" },
   { title: "In Progress" },
-  { title: "Review" },
+  { title: "Review" }
 ];
 
 const Tasks = () => {
