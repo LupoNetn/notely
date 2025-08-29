@@ -1,57 +1,59 @@
 import { useState, useEffect } from "react";
 
-// Define Task class outside the hook
-class Task {
-  constructor(img, label, title, desc, createdAt, updatedAt, status) {
-    this.id = crypto.randomUUID();
-    this.img = img;
-    this.label = label;
-    this.title = title;
-    this.desc = desc;
-    this.createdAt = createdAt || new Date();
-    this.updatedAt = updatedAt || new Date();
-    this.status = status || "Backlog"; // Backlog, In Progress, Review, Completed
-  }
-
-  update(fields) {
-    Object.assign(this, fields);
-    this.updatedAt = new Date();
-  }
-}
-
 const useTasks = () => {
-  const [tasks, setTasks] = useState([]);
+  // Check if localStorage is available
+  const isLocalStorageAvailable = () => typeof window !== "undefined" && window.localStorage;
 
+  // Load tasks from localStorage on initial render
+  const [tasks, setTasks] = useState(() => {
+    if (!isLocalStorageAvailable()) return [];
+    try {
+      const stored = localStorage.getItem("tasks");
+      return stored ? JSON.parse(stored) : [];
+    } catch (error) {
+      console.error("Error parsing localStorage:", error);
+      localStorage.removeItem("tasks"); // Clear invalid data
+      return [];
+    }
+  });
+
+  // Save tasks to localStorage when they change
   useEffect(() => {
-    console.log(tasks);
+    if (isLocalStorageAvailable()) {
+      try {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+        console.log("Saved to localStorage:", tasks);
+      } catch (error) {
+        console.error("Error saving to localStorage:", error);
+      }
+    }
   }, [tasks]);
 
-  const addTask = (
-    img,
-    label,
-    title,
-    desc,
-    status,
-    createdAt,
-    updatedAt
-  ) => {
-    const newTask = new Task(
-      img,
-      label,
-      title,
-      desc,
-      createdAt,
-      updatedAt,
-      status
-    );
-    setTasks((prevTasks) => [...prevTasks, newTask]);
+  // Add a new task
+  const addTask = (task) => {
+    setTasks((prev) => {
+      const updated = [...prev, { ...task }]; // Ensure new object
+      console.log("Adding task:", updated);
+      return updated;
+    });
   };
 
+  // Remove task by index
+  const removeTask = (index) => {
+    setTasks((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      console.log("After remove:", updated);
+      return updated;
+    });
+  };
+
+  // Debug hook lifecycle
   useEffect(() => {
-    addTask("img", "label", "title", "desc", "status");
+    console.log("useTasks hook initialized");
+    return () => console.log("useTasks hook unmounted");
   }, []);
 
-  return { tasks, addTask };
+  return { tasks, addTask, removeTask };
 };
 
 export default useTasks;

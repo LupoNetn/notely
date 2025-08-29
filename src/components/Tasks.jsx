@@ -5,9 +5,9 @@ import AddTaskForm from "./AddTaskForm";
 
 const taskHeader = [
   { title: "BackLog" },
+  { title: "To Do" },
   { title: "In Progress" },
   { title: "Review" },
-  { title: "To Do" },
 ];
 
 const Tasks = () => {
@@ -35,7 +35,7 @@ const Tasks = () => {
         </header>
 
         <main>
-          {/* Task Header */}
+          {/* Task Columns */}
           <div
             className="
               flex gap-4 overflow-x-auto
@@ -43,73 +43,43 @@ const Tasks = () => {
               lg:grid lg:grid-cols-4
             "
           >
-            <div className="flex-1 min-w-[220px]">
-              <div className="flex bg-background items-center justify-between p-4 rounded-md">
-                <h3>BackLog</h3>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddTask("BackLog")}
-                    className="p-1 rounded-full bg-blue-200 hover:bg-blue-400 text-gray-600 hover:text-white cursor-pointer"
-                  >
-                    <Plus size={16} />
-                  </button>
-                  <button className="p-1 cursor-pointer rounded-full hover:bg-primary/50">
-                    <Ellipsis size={16} />
-                  </button>
+            {taskHeader.map((col) => (
+              <div key={col.title} className="flex-1 min-w-[220px]">
+                {/* Column Header */}
+                <div className="flex bg-background items-center justify-between p-4 rounded-md">
+                  <h3 className="font-semibold">{col.title}</h3>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => handleAddTask(col.title)}
+                      className="p-1 rounded-full bg-blue-200 hover:bg-blue-400 text-gray-600 hover:text-white cursor-pointer"
+                    >
+                      <Plus size={16} />
+                    </button>
+                    <button className="p-1 cursor-pointer rounded-full hover:bg-primary/50">
+                      <Ellipsis size={16} />
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </div>
 
-            <div className="flex-1 min-w-[220px]">
-              <div className="flex bg-background items-center justify-between p-4 rounded-md">
-                <h3>To Do</h3>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddTask("To Do")}
-                    className="p-1 rounded-full bg-blue-200 hover:bg-blue-400 text-gray-600 hover:text-white cursor-pointer"
-                  >
-                    <Plus size={16} />
-                  </button>
-                  <button className="p-1 cursor-pointer rounded-full hover:bg-primary/50">
-                    <Ellipsis size={16} />
-                  </button>
+                {/* Column Tasks */}
+                <div className="mt-2 flex flex-col gap-2">
+                  {tasks
+                    .filter((task) => task.status === col.title)
+                    .map((task) => (
+                      <div
+                        key={task.id}
+                        className="p-3 bg-white rounded-md shadow-sm border hover:shadow-md transition"
+                      >
+                        <h4 className="font-medium">{task.title}</h4>
+                        <p className="text-sm text-gray-500">{task.label}</p>
+                        <p className="text-xs text-gray-400 mt-1">
+                          {task.desc}
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
-            </div>
-
-            <div className="flex-1 min-w-[220px]">
-              <div className="flex bg-background items-center justify-between p-4 rounded-md">
-                <h3>In Progress</h3>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddTask("In Progress")}
-                    className="p-1 rounded-full bg-blue-200 hover:bg-blue-400 text-gray-600 hover:text-white cursor-pointer"
-                  >
-                    <Plus size={16} />
-                  </button>
-                  <button className="p-1 cursor-pointer rounded-full hover:bg-primary/50">
-                    <Ellipsis size={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-1 min-w-[220px]">
-              <div className="flex bg-background items-center justify-between p-4 rounded-md">
-                <h3>Review</h3>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleAddTask("Review")}
-                    className="p-1 rounded-full bg-blue-200 hover:bg-blue-400 text-gray-600 hover:text-white cursor-pointer"
-                  >
-                    <Plus size={16} />
-                  </button>
-                  <button className="p-1 cursor-pointer rounded-full hover:bg-primary/50">
-                    <Ellipsis size={16} />
-                  </button>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </main>
 
