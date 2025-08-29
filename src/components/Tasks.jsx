@@ -15,6 +15,8 @@ const Tasks = () => {
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [openForm, setOpenForm] = useState(false);
 
+  console.log('from Tasks component:', tasks);
+
   const handleAddTask = (status) => {
     setSelectedStatus(status);
     setOpenForm(true);

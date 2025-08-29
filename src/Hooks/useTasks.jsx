@@ -23,6 +23,7 @@ const useTasks = () => {
       try {
         localStorage.setItem("tasks", JSON.stringify(tasks));
         console.log("Saved to localStorage:", tasks);
+        console.log(localStorage)
       } catch (error) {
         console.error("Error saving to localStorage:", error);
       }
@@ -31,6 +32,8 @@ const useTasks = () => {
 
   // Add a new task
   const addTask = (task) => {
+    localStorage.setItem("tasks", JSON.stringify([...tasks, task])); // Immediate save for testing
+    console.log("Immediate save:", [...tasks, task]);
     setTasks((prev) => {
       const updated = [...prev, { ...task }]; // Ensure new object
       console.log("Adding task:", updated);
@@ -40,6 +43,8 @@ const useTasks = () => {
 
   // Remove task by index
   const removeTask = (index) => {
+    localStorage.setItem("tasks", JSON.stringify(tasks.filter((_, i) => i !== index))); // Immediate save for testing
+    console.log("Immediate remove:", tasks.filter((_, i) => i !== index));
     setTasks((prev) => {
       const updated = prev.filter((_, i) => i !== index);
       console.log("After remove:", updated);
