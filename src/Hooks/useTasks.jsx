@@ -1,65 +1,49 @@
 import { useState, useEffect } from "react";
 
 const useTasks = () => {
-  // Check if localStorage is available
   const isLocalStorageAvailable = () =>
     typeof window !== "undefined" && window.localStorage;
 
-  // Load tasks from localStorage on initial render
+  // Load tasks from localStorage
   const [tasks, setTasks] = useState(() => {
-    if (isLocalStorageAvailable()) {
-      try {
-        const stored = localStorage.getItem("tasks");
-        return stored ? JSON.parse(stored) : [];
-      } catch (error) {
-        console.error("Error parsing localStorage:", error);
-      localStorage.removeItem("tasks"); // Clear invalid data
-      return [];
-    }
-  }});
-
-  useEffect(() => {
-    if (!isLocalStorageAvailable()) return;
+    if (!isLocalStorageAvailable()) return [];
     try {
       const stored = localStorage.getItem("tasks");
-      setTasks(stored ? JSON.parse(stored) : []);
-    } catch (error) {
-      console.error("Error parsing localStorage:", error);
-      localStorage.removeItem("tasks"); // Clear invalid data
-      setTasks([]);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      localStorage.removeItem("tasks");
+      return [];
     }
-  }, []); // Only run once on mount
+  });
 
-  // Save tasks to localStorage when they change
+  // Sync tasks to localStorage
   useEffect(() => {
-    if (isLocalStorageAvailable()) {
-      try {
-        localStorage.setItem("tasks", JSON.stringify(tasks));
-        console.log("Saved to localStorage:", tasks);
-      } catch (error) {
-        console.error("Error saving to localStorage:", error);
-      }
-    }
+    if (!isLocalStorageAvailable()) return;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
   }, [tasks]);
 
-  // Add a new task
+  // Add new task (prepend for newest-first order)
   const addTask = (task) => {
-    setTasks((prev) => [{ ...task },...prev]);
+    setTasks((prev) => [{ ...task }, ...prev]);
   };
 
-  // Remove task by index
-const removeTask = (id) => {
-  setTasks((prev) => prev.filter((task) => task.id !== id));
-};
+  // Remove task by id
+  const removeTask = (id) => {
+    setTasks((prev) => prev.filter((task) => task.id !== id));
+  };
 
+  // Update task by id
+  const updateTask = (id, updatedFields) => {
+    setTasks((prev) =>
+      prev.map((task) =>
+        task.id === id
+          ? { ...task, ...updatedFields, updatedAt: new Date().toISOString() }
+          : task
+      )
+    );
+  };
 
-  // Debug hook lifecycle
-  useEffect(() => {
-    console.log("useTasks hook initialized");
-    return () => console.log("useTasks hook unmounted");
-  }, []);
-
-  return { tasks, addTask, removeTask,setTasks };
+  return { tasks, addTask, removeTask, updateTask, setTasks };
 };
 
 export default useTasks;
