@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 import React from "react";
-import useTasks from "../Hooks/UseTasks";
+import useTasks from "../Hooks/useTasks";
 
 const AddTaskForm = ({ status, closeForm }) => {
   const { addTask } = useTasks();

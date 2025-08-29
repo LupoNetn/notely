@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Ellipsis, Plus } from "lucide-react";
-import useTasks from "../Hooks/UseTasks";
+import useTasks from "../Hooks/useTasks";
 import AddTaskForm from "./AddTaskForm";
 
 const taskHeader = [
