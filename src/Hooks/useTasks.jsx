@@ -17,7 +17,7 @@ const useTasks = () => {
         localStorage.removeItem("tasks"); // Clear invalid data
         setTasks([]);
       }
-    }, [tasks]);
+    }, []);
 
   // Save tasks to localStorage when they change
   useEffect(() => {
