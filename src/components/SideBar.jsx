@@ -30,7 +30,7 @@ const SideBar = () => {
       </aside>
 
       {/* Bottom navigation for mobile */}
-      <nav className="fixed bottom-0 left-0 w-full md:hidden bg-white text-gray-700 flex justify-around items-center py-2 px-3 shadow-t border-t border-gray-200">
+      <nav className="fixed z-50 bottom-0 left-0 w-full md:hidden bg-white text-gray-700 flex justify-around items-center py-2 px-3 shadow-t border-t border-gray-200">
         {links.map((link) => (
           <Link
             key={link.href}

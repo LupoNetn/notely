@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { Ellipsis, Plus } from "lucide-react";
-import useTasks from "../Hooks/useTasks";
+import { Ellipsis, Pen, Plus,Trash } from "lucide-react";
+import { useTasksContext } from "../context/TasksContext";
 import AddTaskForm from "./AddTaskForm";
 
 const taskHeader = [
@@ -11,7 +11,7 @@ const taskHeader = [
 ];
 
 const Tasks = () => {
-  const { tasks, addTask } = useTasks();
+  const { tasks, addTask,removeTask } = useTasksContext();
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [openForm, setOpenForm] = useState(false);
 
@@ -26,6 +26,10 @@ const Tasks = () => {
     setOpenForm(false);
     setSelectedStatus(null);
   };
+
+  const handleDeleteTask = (index) => {
+    removeTask(index);
+  }
 
   return (
     <>
@@ -70,13 +74,23 @@ const Tasks = () => {
                     .map((task) => (
                       <div
                         key={task.id}
-                        className="p-3 bg-white rounded-md shadow-sm border hover:shadow-md transition"
+                        className="px-3 pb-8 pt-5 bg-white rounded-md shadow-sm border hover:shadow-md transition"
                       >
-                        <h4 className="font-medium">{task.title}</h4>
-                        <p className="text-sm text-gray-500">{task.label}</p>
+                        <span className="bg-gradient-to-br from-purple-300 to-blue-50 text-gray-600 p-2 rounded-md">{task.label}</span>
+                       <div className="mt-5">
+                         <h4 className="font-medium ">{task.title}</h4>
                         <p className="text-xs text-gray-400 mt-1">
                           {task.desc}
                         </p>
+                       </div>
+                       <div className="flex gap-2 justify-end">
+                         <button onClick={() => handleDeleteTask(task.id)}>
+                        <Trash size={16} className="mt-3 text-gray-400 hover:text-red-500 cursor-pointer" />
+                        </button>
+                        <button onClick={console.log(12345)}>
+                        <Pen size={16} className="mt-3 text-gray-400 hover:text-blue-500 cursor-pointer" />
+                        </button>
+                       </div>
                       </div>
                     ))}
                 </div>
