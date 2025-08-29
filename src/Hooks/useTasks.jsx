@@ -6,7 +6,8 @@ const useTasks = () => {
 
   // Load tasks from localStorage on initial render
   const [tasks, setTasks] = useState(() => {
-    if (!isLocalStorageAvailable()) return [];
+   useEffect(() => {
+     if (!isLocalStorageAvailable()) return [];
     try {
       const stored = localStorage.getItem("tasks");
       return stored ? JSON.parse(stored) : [];
@@ -16,6 +17,7 @@ const useTasks = () => {
       return [];
     }
   });
+   },[tasks])
 
   // Save tasks to localStorage when they change
   useEffect(() => {
