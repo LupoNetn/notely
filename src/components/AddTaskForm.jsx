@@ -61,14 +61,14 @@ const AddTaskForm = ({ status, closeForm }) => {
 
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col gap-3 my-4">
-          <input
+          {/* <input
             type="text"
             name="img"
             placeholder="Image URL (optional)..."
             className="p-2 border-b border-gray-300 rounded-md outline-none focus:border-b-blue-300 placeholder:text-sm"
             value={formData.img}
             onChange={handleChange}
-          />
+          /> */}
           <input
             type="text"
             name="title"

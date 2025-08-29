@@ -5,19 +5,19 @@ const useTasks = () => {
   const isLocalStorageAvailable = () => typeof window !== "undefined" && window.localStorage;
 
   // Load tasks from localStorage on initial render
-  const [tasks, setTasks] = useState(() => {
-   useEffect(() => {
-     if (!isLocalStorageAvailable()) return [];
-    try {
-      const stored = localStorage.getItem("tasks");
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.error("Error parsing localStorage:", error);
-      localStorage.removeItem("tasks"); // Clear invalid data
-      return [];
-    }
-  });
-   },[tasks])
+  const [tasks, setTasks] = useState([])
+
+  useEffect(() => {
+       if (!isLocalStorageAvailable()) return;
+      try {
+        const stored = localStorage.getItem("tasks");
+        setTasks(stored ? JSON.parse(stored) : []);
+      } catch (error) {
+        console.error("Error parsing localStorage:", error);
+        localStorage.removeItem("tasks"); // Clear invalid data
+        setTasks([]);
+      }
+    }, [tasks]);
 
   // Save tasks to localStorage when they change
   useEffect(() => {
