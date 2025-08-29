@@ -13,7 +13,7 @@ import Footer from "./components/Footer";
 const App = () => {
   return (
     <>
-      <div className="container px-3 mx-auto">
+      <div className="px-5 relative">
         <TopBar />
         <BrowserRouter>
           <Routes>
