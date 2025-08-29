@@ -12,7 +12,7 @@ const Tasks = () => {
   return (
     <>
       <header>
-        <div className="flex">
+        <div className="flex mb-3">
           <h1 className="font-bold text-xl">🔥 Tasks</h1>
         </div>
       </header>

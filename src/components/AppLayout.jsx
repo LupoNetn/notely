@@ -10,7 +10,7 @@ const AppLayout = () => {
             <SideBar />
         </aside>
 
-        <main className='xl:ml-5 xl:pl-27 lg:ml-20 lg:pl-10 md:ml-19 md:pl-10 px-3 flex-1 bg-primary h-[100vh] pt-7'>
+        <main className='xl:ml-5 xl:pl-27 lg:ml-20 lg:pl-10 md:ml-19 md:pl-10 px-3 flex-1 bg-primary h-[100vh] p-7'>
             <Outlet />
         </main>
     </div>
