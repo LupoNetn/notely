@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Ellipsis, Pen, Plus, Trash } from "lucide-react";
 import { useTasksContext } from "../context/TasksContext";
 import AddTaskForm from "./AddTaskForm";
+import { format } from "date-fns";
 
 const taskHeader = [
   { title: "BackLog" },
@@ -71,22 +72,36 @@ const Tasks = () => {
                   .map((task) => (
                     <div
                       key={task.id}
-                      className="px-3 pb-8 pt-5 bg-white rounded-md shadow-sm border hover:shadow-md transition"
+                      className="px-3 pb-8 pt-5 bg-white rounded-md shadow-sm hover:shadow-md transition"
                     >
                       <span className="bg-gradient-to-br from-purple-300 to-blue-50 text-gray-600 p-2 rounded-md">
                         {task.label}
                       </span>
                       <div className="mt-5">
                         <h4 className="font-medium">{task.title}</h4>
-                        <p className="text-xs text-gray-400 mt-1">{task.desc}</p>
+                        <p className="text-sm text-gray-600 mt-1">
+                          {task.desc}
+                        </p>
                       </div>
-                      <div className="flex gap-2 justify-end mt-2">
-                        <button onClick={() => handleEditTask(task)}>
-                          <Pen size={16} className="text-gray-400 hover:text-blue-500 cursor-pointer" />
-                        </button>
-                        <button onClick={() => handleDeleteTask(task.id)}>
-                          <Trash size={16} className="text-gray-400 hover:text-red-500 cursor-pointer" />
-                        </button>
+                      <div className="flex gap-2 justify-between items-center mt-2">
+                        <span className="font-xs text-gray-500">
+                          {format(task.createdAt, "dd/MM/yyyy")}
+                        </span>
+
+                        <div>
+                          <button onClick={() => handleEditTask(task)}>
+                            <Pen
+                              size={16}
+                              className="text-gray-400 hover:text-blue-500 cursor-pointer"
+                            />
+                          </button>
+                          <button onClick={() => handleDeleteTask(task.id)}>
+                            <Trash
+                              size={16}
+                              className="text-gray-400 hover:text-red-500 cursor-pointer"
+                            />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   ))}
