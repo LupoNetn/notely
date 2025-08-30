@@ -2,7 +2,7 @@ import React from "react";
 import { Pen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNotesContext } from "../context/NotesContext";
-import useNotes from "../Hooks/useNotes";
+
 
 const Notes = () => {
  const { notes } = useNotesContext();
@@ -28,7 +28,7 @@ const Notes = () => {
 
       {/* Notes Grid */}
       {notes.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {notes.map((note, index) => (
             <div
               key={index}
