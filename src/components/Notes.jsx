@@ -48,7 +48,7 @@ const Notes = () => {
       <Link to='/note-create'>
         <button
           onClick={handleAddNote}
-          className="cursor-pointer fixed bottom-6 right-6 bg-blue-500 hover:bg-blue-600 p-4 rounded-full shadow-lg flex items-center justify-center transition"
+          className="cursor-pointer fixed bottom-18 right-1 md:bottom-6 md:right-6 bg-blue-500 hover:bg-blue-600 p-4 rounded-full shadow-lg flex items-center justify-center transition"
         >
           <Pen size={24} className="text-white" />
         </button>
