@@ -28,16 +28,16 @@ const Notes = () => {
 
       {/* Notes Grid */}
       {notes.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {notes.map((note, index) => (
             <div
               key={index}
               className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer"
             >
-              <h2 className="font-semibold text-md text-gray-800 mb-2">
+              <h2 className="font-semibold text-lg text-gray-800 mb-2">
                 {note.title || "Untitled"}
               </h2>
-              <p className="text-gray-500 text-xs whitespace-pre-wrap">
+              <p className="text-gray-500 text-sm">
                 {truncateContent(note.content,200) || "No content..."}
               </p>
             </div>
