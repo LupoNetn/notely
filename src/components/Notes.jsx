@@ -7,6 +7,14 @@ import useNotes from "../Hooks/useNotes";
 const Notes = () => {
  const { notes } = useNotesContext();
 
+ const truncateContent = (text, wordLimit) => {
+  if (!text) return "";
+  const words = text.split(" ");
+  if (words.length <= wordLimit) return text;
+  return words.slice(0, wordLimit).join(" ") + " ...";
+};
+
+
 
   return (
     <div className="p-6 relative min-h-screen">
@@ -30,7 +38,7 @@ const Notes = () => {
                 {note.title || "Untitled"}
               </h2>
               <p className="text-gray-500 text-sm">
-                {note.content || "No content..."}
+                {truncateContent(note.content,200) || "No content..."}
               </p>
             </div>
           ))}
