@@ -8,6 +8,7 @@ import Tasks from "./components/Tasks";
 import Notes from "./components/Notes";
 import Settings from "./components/Settings";
 import NoPage from "./components/NoPage";
+import NotesCreation from "./components/NotesCreation";
 import Footer from "./components/Footer";
 
 const App = () => {
@@ -22,6 +23,7 @@ const App = () => {
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/note-create" element={<NotesCreation />}/>
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>
