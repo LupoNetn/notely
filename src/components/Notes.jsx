@@ -9,7 +9,7 @@ const Notes = () => {
 
 
   return (
-    <div className="p-6 relative h-screen">
+    <div className="p-6 relative min-h-screen">
       {/* Header */}
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">📝 Notes</h1>
