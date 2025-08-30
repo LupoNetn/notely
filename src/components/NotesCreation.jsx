@@ -1,25 +1,42 @@
 import { ArrowLeft } from "lucide-react";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import { useNotesContext } from "../context/NotesContext";
-import useNotes from "../Hooks/useNotes";
+import { useNavigate } from "react-router-dom";
 
 const NotesCreation = () => {
-  const { addNote } = useNotesContext();
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { addNote, notes, updateNote } = useNotesContext();
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const existingNote = notes.find((note) => note.id === id);
+
+  const [title, setTitle] = useState(existingNote?.title || "");
+  const [content, setContent] = useState(existingNote?.content || "");
+
+  useEffect(() => {
+    if (existingNote) {
+      setTitle(existingNote.title);
+      setContent(existingNote.content);
+    }
+  }, [existingNote]);
 
   const handleSave = () => {
     if (!title.trim() && !content.trim()) return;
 
-    addNote(title, content);
+    if (existingNote) {
+      // update existing
+      updateNote(id, { title, content });
+    } else {
+      // add new
+      addNote(title, content);
+    }
 
     // reset form
     setTitle("");
     setContent("");
+    navigate("/notes");
   };
-
   return (
     <div className="flex items-start min-h-screen p-3">
       <div className="w-full p-3">
@@ -56,7 +73,7 @@ const NotesCreation = () => {
             onClick={handleSave}
             className="bg-blue-600 hover:bg-blue-500 text-white px-6 py-2 rounded-full font-medium shadow-md transition"
           >
-            Save
+            {existingNote ? "Update Note" : "Add Note"}
           </button>
         </div>
       </div>

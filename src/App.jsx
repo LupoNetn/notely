@@ -23,7 +23,8 @@ const App = () => {
               <Route path="/tasks" element={<Tasks />} />
               <Route path="/notes" element={<Notes />} />
               <Route path="/settings" element={<Settings />} />
-              <Route path="/note-create" element={<NotesCreation />}/>
+              <Route path="/note-create" element={<NotesCreation />} />
+              <Route path="/note-create/:id" element={<NotesCreation />} />
               <Route path="*" element={<NoPage />} />
             </Route>
           </Routes>
