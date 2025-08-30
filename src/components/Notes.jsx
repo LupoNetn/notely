@@ -7,12 +7,12 @@ import useNotes from "../Hooks/useNotes";
 const Notes = () => {
  const { notes } = useNotesContext();
 
- const truncateContent = (text, wordLimit) => {
+ const truncateContent = (text, charLimit) => {
   if (!text) return "";
-  const words = text.split(" ");
-  if (words.length <= wordLimit) return text;
-  return words.slice(0, wordLimit).join(" ") + " ...";
+  if (text.length <= charLimit) return text;
+  return text.slice(0, charLimit) + " ...........";
 };
+
 
 
 
