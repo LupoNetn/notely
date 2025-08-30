@@ -40,7 +40,7 @@ const Tasks = () => {
   };
 
   return (
-    <div className="relative">
+    <div className="relative h-screen">
       <header className="flex mb-3">
         <h1 className="font-bold text-xl">🔥 Tasks</h1>
       </header>
