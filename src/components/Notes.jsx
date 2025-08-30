@@ -34,10 +34,10 @@ const Notes = () => {
               key={index}
               className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer"
             >
-              <h2 className="font-semibold text-lg text-gray-800 mb-2">
+              <h2 className="font-semibold text-md text-gray-800 mb-2">
                 {note.title || "Untitled"}
               </h2>
-              <p className="text-gray-500 text-sm">
+              <p className="text-gray-500 text-xs whitespace-pre-wrap">
                 {truncateContent(note.content,200) || "No content..."}
               </p>
             </div>
