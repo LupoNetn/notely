@@ -115,7 +115,7 @@ const Dashboard = () => {
             >
               <h4 className="text-gray-800 font-bold">{latestTask.title}</h4>
               <p className="text-gray-500 text-sm">
-                {latestTask.description || "No description"}
+                {latestTask.desc || "No description"}
               </p>
               <p className="text-xs text-gray-400 mt-2">
                 Created {new Date(latestTask.createdAt).toLocaleString()}
