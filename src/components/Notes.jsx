@@ -73,7 +73,6 @@ const Notes = () => {
           <Pen size={24} className="text-white" />
         </button>
       </Link>
-
     </div>
   );
 };
