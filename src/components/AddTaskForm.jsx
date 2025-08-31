@@ -1,9 +1,12 @@
 import { X } from "lucide-react";
 import React from "react";
 import { useTasksContext } from "../context/TasksContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const AddTaskForm = ({ status, closeForm, taskToEdit }) => {
   const { addTask, updateTask } = useTasksContext();
+  const location = useLocation(); // get current page path
+  const navigate = useNavigate(); // navigate programmatically
 
   const [formData, setFormData] = React.useState(() => ({
     img: taskToEdit?.img || "",
@@ -35,6 +38,7 @@ const AddTaskForm = ({ status, closeForm, taskToEdit }) => {
       });
     }
 
+    // Reset form
     setFormData({
       img: "",
       label: "",
@@ -46,6 +50,11 @@ const AddTaskForm = ({ status, closeForm, taskToEdit }) => {
     });
 
     closeForm();
+
+    // Navigate to tasks page if form was opened from dashboard
+    if (location.pathname === "/") {
+      navigate("/tasks");
+    }
   };
 
   return (

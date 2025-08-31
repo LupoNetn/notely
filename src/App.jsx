@@ -15,8 +15,9 @@ const App = () => {
   return (
     <>
       <div className="md:px-5 relative">
-        <TopBar />
+       
         <BrowserRouter>
+          <TopBar />
           <Routes>
             <Route path="/" element={<AppLayout />}>
               <Route index element={<Dashboard />} />

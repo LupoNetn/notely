@@ -1,13 +1,32 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNotesContext } from "../context/NotesContext";
 import { useTasksContext } from "../context/TasksContext";
 import { PlusCircle, FilePlus2 } from "lucide-react"; // icons
+import AddTaskForm from "./AddTaskForm";
 
 const Dashboard = () => {
   const { notes } = useNotesContext();
   const { tasks } = useTasksContext();
 
+  // Modal state
+  const [openForm, setOpenForm] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [taskToEdit, setTaskToEdit] = useState(null);
+
+  // Open form for new task
+  const handleNewTask = (status = "BackLog") => {
+    setSelectedStatus(status);
+    setTaskToEdit(null);
+    setOpenForm(true);
+  };
+
+  // Close form
+  const closeForm = () => {
+    setOpenForm(false);
+    setSelectedStatus(null);
+    setTaskToEdit(null);
+  };
 
   // Pick latest task & note
   const latestTask = [...tasks].sort(
@@ -42,7 +61,7 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen p-6">
+    <div className="relative min-h-screen md:h-screen p-6">
       <header className="mb-6">
         <h1 className="text-2xl font-bold text-gray-800">📊 Dashboard</h1>
         <p className="text-gray-500 mt-1">Quick overview of your app</p>
@@ -65,13 +84,13 @@ const Dashboard = () => {
       <div className="mb-8">
         <h3 className="text-lg font-semibold mb-3">⚡ Quick Actions</h3>
         <div className="flex flex-col sm:flex-row gap-4">
-          <Link
-            to="/tasks"
+          <button
+            onClick={() => handleNewTask("BackLog")}
             className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-3 rounded-xl shadow-md transition"
           >
             <PlusCircle size={20} />
             New Task
-          </Link>
+          </button>
           <Link
             to="/note-create"
             className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-3 rounded-xl shadow-md transition"
@@ -127,7 +146,24 @@ const Dashboard = () => {
         </div>
       </div>
 
-     
+      {/* Modal Overlay */}
+      {openForm && (
+        <div
+          className="fixed inset-0 bg-black/50 flex items-center justify-center z-40"
+          onClick={closeForm}
+        >
+          <div
+            className="relative z-50 max-sm:mt-20"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <AddTaskForm
+              status={selectedStatus}
+              closeForm={closeForm}
+              taskToEdit={taskToEdit}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
