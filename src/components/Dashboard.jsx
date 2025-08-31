@@ -1,11 +1,44 @@
-import React from "react";
+import React,{useState} from "react";
+import { Link } from "react-router-dom";
+import { useNotesContext } from "../context/NotesContext";
+import { useTasksContext } from "../context/TasksContext";
+import { PlusCircle, FilePlus2 } from "lucide-react"; // icons
 
 const Dashboard = () => {
-  const sampleStats = [
-    { id: 1, title: "Total Tasks", value: 24 },
-    { id: 2, title: "Completed Tasks", value: 12 },
-    { id: 3, title: "Pending Reviews", value: 5 },
-    { id: 4, title: "Notes", value: 8 },
+  const { notes } = useNotesContext();
+  const { tasks } = useTasksContext();
+
+
+  // Pick latest task & note
+  const latestTask = [...tasks].sort(
+    (a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt)
+  )[0];
+
+  const latestNote = [...notes].sort(
+    (a, b) => (b.updatedAt || b.createdAt) - (a.updatedAt || a.createdAt)
+  )[0];
+
+  const getRecentActivity = (items, days = 7) => {
+    const cutoff = Date.now() - days * 24 * 60 * 60 * 1000;
+    return items.filter(
+      (item) =>
+        item.createdAt >= cutoff || (item.updatedAt && item.updatedAt >= cutoff)
+    ).length;
+  };
+
+  const appStats = [
+    { id: 1, title: "Total Tasks", value: tasks.length },
+    { id: 2, title: "Notes", value: notes.length },
+    {
+      id: 3,
+      title: "Recent Activity - Notes",
+      value: getRecentActivity(notes),
+    },
+    {
+      id: 4,
+      title: "Recent Activity - Tasks",
+      value: getRecentActivity(tasks),
+    },
   ];
 
   return (
@@ -15,8 +48,9 @@ const Dashboard = () => {
         <p className="text-gray-500 mt-1">Quick overview of your app</p>
       </header>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-        {sampleStats.map((stat) => (
+      {/* Stats */}
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        {appStats.map((stat) => (
           <div
             key={stat.id}
             className="bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition cursor-pointer"
@@ -27,9 +61,73 @@ const Dashboard = () => {
         ))}
       </div>
 
-      <div className="text-center mt-12 text-gray-400 italic">
-        ⚠️ Still in development...
+      {/* Quick Actions */}
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold mb-3">⚡ Quick Actions</h3>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link
+            to="/tasks"
+            className="flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-medium px-4 py-3 rounded-xl shadow-md transition"
+          >
+            <PlusCircle size={20} />
+            New Task
+          </Link>
+          <Link
+            to="/note-create"
+            className="flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white font-medium px-4 py-3 rounded-xl shadow-md transition"
+          >
+            <FilePlus2 size={20} />
+            New Note
+          </Link>
+        </div>
       </div>
+
+      {/* Recent Activity Section */}
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Recent Task */}
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold mb-2">🆕 Recent Task</h3>
+          {tasks.length === 0 ? (
+            <p className="text-gray-500">No tasks available.</p>
+          ) : (
+            <Link
+              to="/tasks"
+              className="block bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition"
+            >
+              <h4 className="text-gray-800 font-bold">{latestTask.title}</h4>
+              <p className="text-gray-500 text-sm">
+                {latestTask.description || "No description"}
+              </p>
+              <p className="text-xs text-gray-400 mt-2">
+                Created {new Date(latestTask.createdAt).toLocaleString()}
+              </p>
+            </Link>
+          )}
+        </div>
+
+        {/* Recent Note */}
+        <div className="flex-1">
+          <h3 className="text-lg font-semibold mb-2">📝 Recent Note</h3>
+          {notes.length === 0 ? (
+            <p className="text-gray-500">No notes available.</p>
+          ) : (
+            <Link
+              to="/notes"
+              className="block bg-white p-4 rounded-xl shadow-md hover:shadow-lg transition"
+            >
+              <h4 className="text-gray-800 font-bold">{latestNote.title}</h4>
+              <p className="text-gray-500 text-sm truncate">
+                {latestNote.content || "No content"}
+              </p>
+              <p className="text-xs text-gray-400 mt-2">
+                Created {new Date(latestNote.createdAt).toLocaleString()}
+              </p>
+            </Link>
+          )}
+        </div>
+      </div>
+
+     
     </div>
   );
 };

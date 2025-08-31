@@ -30,8 +30,8 @@ const AddTaskForm = ({ status, closeForm, taskToEdit }) => {
         id: crypto.randomUUID(),
         ...formData,
         status,
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
+        createdAt: Date.now(),
+        updatedAt: Date.now(),
       });
     }
 

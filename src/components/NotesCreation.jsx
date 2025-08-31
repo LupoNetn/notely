@@ -42,7 +42,7 @@ const NotesCreation = () => {
       <div className="w-full p-3">
         {/* Header */}
         <div className="flex items-center mb-6 gap-3">
-          <Link to="/notes">
+          <Link onClick={() => navigate(-1)}>
             <ArrowLeft className="w-8 h-8 -mt-3" />
           </Link>
           <h1 className="text-2xl font-semibold text-gray-800 mb-4">
